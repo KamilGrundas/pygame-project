@@ -16,6 +16,7 @@ PLAYER_TOOL_OFFSET = {
 	'down': Vector2(0,50)
 }
 
+
 LAYERS = {
 	'water': 0,
 	'ground': 1,
