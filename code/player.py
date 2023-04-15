@@ -1,13 +1,14 @@
 import pygame
 from settings import *
+import math
 
 class Player(pygame.sprite.Sprite):
     def __init__(self, pos, group):
         super().__init__(group)
 
         #general setup
-        self.image = pygame.Surface((32,64))
-        self.image.fill("green")
+        self.image = pygame.transform.rotozoom(pygame.image.load("graphics/character/down/0.png").convert_alpha(),0,PLAYER_SIZE)
+        self.base_player_image = self.image
         self.rect = self.image.get_rect(center = pos)
 
         #movement attributes
@@ -54,7 +55,16 @@ class Player(pygame.sprite.Sprite):
         self.rect.centery = self.pos.y
 
 
+    def get_angle(self):
+
+        self.mouse_pos = pygame.mouse.get_pos()
+        self.x_change = (self.mouse_pos[0] - self.pos.x)
+        self.y_change = (self.mouse_pos[1] - self.pos.y)
+        self.angle = math.degrees(math.atan2(self.y_change, self.x_change))
+
 
     def update(self,dt):
         self.input()
         self.move(dt)
+        self.get_angle()
+        print(self.angle)
