@@ -1,5 +1,6 @@
 import pygame
 import math
+from settings import *
 
 class Bullet(pygame.sprite.Sprite):
 
@@ -18,16 +19,16 @@ class Bullet(pygame.sprite.Sprite):
         self.y_vel = math.sin(angle * (2*math.pi/360)) * self.bullet_speed
 
 
-    def move(self):
-        self.x += self.x_vel
-        self.y += self.y_vel
+    def move(self,dt):
+        self.x += self.x_vel * dt
+        self.y += self.y_vel * dt
 
         self.rect.x = int(self.x)
         self.rect.y = int(self.y)
 
 
-    def update(self):
-        self.move()
+    def update(self,dt):
+        self.move(dt)
 
 
 
