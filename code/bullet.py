@@ -4,7 +4,7 @@ from settings import *
 
 class Bullet(pygame.sprite.Sprite):
 
-    def __init__(self,x,y,angle,range, group):
+    def __init__(self,x,y,angle,range, speed, group):
         super().__init__(group)
         
         #general setup
@@ -19,7 +19,7 @@ class Bullet(pygame.sprite.Sprite):
         self.x = x
         self.y = y
         self.bullet_destroy = False
-        self.bullet_speed = 600
+        self.bullet_speed = speed
         self.x_vel = math.cos(angle * (2*math.pi/360))
         self.y_vel = math.sin(angle * (2*math.pi/360))
 

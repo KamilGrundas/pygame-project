@@ -15,12 +15,17 @@ class Player(pygame.sprite.Sprite):
         self.direction = pygame.math.Vector2()
         self.pos = pygame.math.Vector2(self.rect.center)
         self.speed = 200
+
+        #shooting attributes
         self.shot = False
         self.shot_delay = 0.1
         self.shot_range = 200
+        self.projectile_speed = 600
 
 
     def input(self):
+
+        mouse = pygame.mouse.get_pressed()
         keys = pygame.key.get_pressed()
 
         if keys[pygame.K_w]:
@@ -37,14 +42,12 @@ class Player(pygame.sprite.Sprite):
         else:
             self.direction.x = 0
 
-        if keys[pygame.K_f]:
+        if mouse[0]:
             self.shot = True
         else:
             self.shot = False
 
 
-
-        
 
     def move(self,dt):
 
