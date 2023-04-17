@@ -1,13 +1,18 @@
 import pygame
 from settings import *
 import math
+from support import *
 
 class Player(pygame.sprite.Sprite):
     def __init__(self, pos, group):
         super().__init__(group)
 
+        self.import_assets()
+        self.status = "down"
+        self.frame_index = 0
+
         #general setup
-        self.image = pygame.transform.rotozoom(pygame.image.load("graphics/character/down/0.png").convert_alpha(),0,PLAYER_SIZE)
+        self.image = self.animations[self.status][self.frame_index]
         self.base_player_image = self.image
         self.rect = self.image.get_rect(center = pos)
 
@@ -22,6 +27,18 @@ class Player(pygame.sprite.Sprite):
         self.shot_range = 200
         self.projectile_speed = 600
 
+    def import_assets(self):
+        self.animations = {"up":[],"down":[],"left":[],"right":[]}
+
+        for animation in self.animations.keys():
+            full_path = "graphics/character/" + animation
+            self.animations[animation] = import_folder(full_path)
+
+    def animate(self,dt):
+        self.frame_index += 4 * dt
+        if self.frame_index >= len(self.animations[self.status]):
+            self.frame_index = 0
+        self.image = self.animations[self.status][int(self.frame_index)]
 
     def input(self):
 
@@ -81,3 +98,4 @@ class Player(pygame.sprite.Sprite):
         self.input()
         self.move(dt)
         self.get_angle()
+        self.animate(dt)

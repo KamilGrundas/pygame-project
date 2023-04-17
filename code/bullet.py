@@ -12,19 +12,20 @@ class Bullet(pygame.sprite.Sprite):
         self.image.fill("red")
         self.rect = self.image.get_rect()
         self.rect.center = (x,y)
-        self.startposx = x
-        self.startposy = y
+        self.bullet_destroy = False
         self.range = range
         self.angle = angle
         self.x = x
         self.y = y
-        self.bullet_destroy = False
         self.bullet_speed = speed
+
+        #velocity in x/y
         self.x_vel = math.cos(angle * (2*math.pi/360))
         self.y_vel = math.sin(angle * (2*math.pi/360))
 
-        self.endposx = self.startposx + self.x_vel*range
-        self.endposy = self.startposy + self.y_vel*range
+        #range
+        self.endposx = x + self.x_vel * range
+        self.endposy = y + self.y_vel * range
 
 
     def range_destroy(self):
@@ -45,12 +46,12 @@ class Bullet(pygame.sprite.Sprite):
                 self.bullet_destroy = True
 
     def move(self,dt):
+    
         self.x += self.x_vel * self.bullet_speed * dt
         self.y += self.y_vel * self.bullet_speed * dt
         
-
-        self.rect.x = int(self.x)
-        self.rect.y = int(self.y)
+        self.rect.x = self.x
+        self.rect.y = self.y
 
     def update(self,dt):
         self.move(dt)
