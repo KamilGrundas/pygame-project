@@ -12,23 +12,36 @@ class Level:
 		# sprite groups
 		self.all_sprites = pygame.sprite.Group()
 
+		#bullets group
+		self.bullets = pygame.sprite.Group()
+
 		self.setup()
 
 	def setup(self):
 		self.player = Player((640,360), self.all_sprites)
 
-	def draw_bullet(self,x,y,angle):
-		self.new_bullet = Bullet(x,y,angle,self.all_sprites)
+	def draw_bullet(self):
+
+		self.new_bullet = Bullet(self.player.rect.centerx,self.player.rect.centery,self.player.angle,200,self.bullets)
+		self.bullets.add(self.new_bullet)
+	
+	def update_bullet(self):
+		for bullet in self.bullets:
+			if bullet.bullet_destroy == True:
+				self.bullets.remove(bullet)
 
 	def run(self,dt):
 		self.display_surface.fill('black')
 		self.all_sprites.draw(self.display_surface)
 		self.all_sprites.update(dt)
+		self.bullets.draw(self.display_surface)
+		self.bullets.update(dt)
+		self.update_bullet()
+		if self.player.shot == True:
+			self.draw_bullet()
 
-		keys = pygame.key.get_pressed()
 
-		if keys[pygame.K_f]:
-			self.draw_bullet(self.player.rect.centerx,self.player.rect.centery,self.player.angle)
+
 
 		
 

@@ -15,6 +15,7 @@ class Player(pygame.sprite.Sprite):
         self.direction = pygame.math.Vector2()
         self.pos = pygame.math.Vector2(self.rect.center)
         self.speed = 200
+        self.shot = False
 
 
     def input(self):
@@ -33,6 +34,11 @@ class Player(pygame.sprite.Sprite):
             self.direction.x = -1
         else:
             self.direction.x = 0
+
+        if keys[pygame.K_f]:
+            self.shot = True
+        else:
+            self.shot = False
 
 
 
@@ -70,4 +76,3 @@ class Player(pygame.sprite.Sprite):
         self.input()
         self.move(dt)
         self.get_angle()
-        print(self.angle)
