@@ -1,4 +1,5 @@
 import pygame 
+import time
 from settings import *
 from player import Player
 from bullet import Bullet
@@ -14,6 +15,7 @@ class Level:
 
 		#bullets group
 		self.bullets = pygame.sprite.Group()
+		self.last_shot = time.time()
 
 		self.setup()
 
@@ -22,8 +24,11 @@ class Level:
 
 	def draw_bullet(self):
 
-		self.new_bullet = Bullet(self.player.rect.centerx,self.player.rect.centery,self.player.angle,200,self.bullets)
-		self.bullets.add(self.new_bullet)
+
+		if time.time() - self.last_shot > self.player.shot_delay: #shot delay check
+			self.new_bullet = Bullet(self.player.rect.centerx,self.player.rect.centery,self.player.angle,self.player.shot_range,self.bullets)
+			self.bullets.add(self.new_bullet)
+			self.last_shot = time.time()
 	
 	def update_bullet(self):
 		for bullet in self.bullets:
