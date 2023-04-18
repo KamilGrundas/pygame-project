@@ -28,7 +28,8 @@ class Player(pygame.sprite.Sprite):
         self.projectile_speed = 600
 
     def import_assets(self):
-        self.animations = {"up":[],"down":[],"left":[],"right":[]}
+        self.animations = {"up":[],"down":[],"left":[],"right":[],
+                           "right_idle":[],"left_idle":[],"up_idle":[],"down_idle":[],}
 
         for animation in self.animations.keys():
             full_path = "graphics/character/" + animation
@@ -47,15 +48,19 @@ class Player(pygame.sprite.Sprite):
 
         if keys[pygame.K_w]:
             self.direction.y = -1
+            self.status = "up"
         elif keys[pygame.K_s]:
             self.direction.y = 1
+            self.status = "down"
         else:
             self.direction.y = 0
             
         if keys[pygame.K_d]:
             self.direction.x = 1
+            self.status = "right"
         elif keys[pygame.K_a]:
             self.direction.x = -1
+            self.status= "left"
         else:
             self.direction.x = 0
 
@@ -64,6 +69,10 @@ class Player(pygame.sprite.Sprite):
         else:
             self.shot = False
 
+    def get_status(self):
+        if self.direction.magnitude() == 0:
+
+            self.status =  self.status.split("_")[0] + "_idle"
 
 
     def move(self,dt):
@@ -96,6 +105,7 @@ class Player(pygame.sprite.Sprite):
 
     def update(self,dt):
         self.input()
+        self.get_status()
         self.move(dt)
         self.get_angle()
         self.animate(dt)
