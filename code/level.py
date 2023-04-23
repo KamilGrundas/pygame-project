@@ -3,6 +3,7 @@ import time
 from settings import *
 from player import Player
 from bullet import Bullet
+from sprites import Generic
 
 class Level:
 	def __init__(self):
@@ -11,7 +12,7 @@ class Level:
 		self.display_surface = pygame.display.get_surface()
 
 		# sprite groups
-		self.all_sprites = pygame.sprite.Group()
+		self.all_sprites = CameraGroup()
 
 		#bullets group
 		self.bullets = pygame.sprite.Group()
@@ -20,6 +21,11 @@ class Level:
 		self.setup()
 
 	def setup(self):
+		Generic(
+			pos = (0,0),
+			surf = pygame.image.load("graphics/world/ground.png").convert_alpha(),
+			groups= self.all_sprites
+		)
 		self.player = Player((640,360), self.all_sprites)
 
 	def draw_bullet(self):
@@ -37,7 +43,8 @@ class Level:
 
 	def run(self,dt):
 		self.display_surface.fill('black')
-		self.all_sprites.draw(self.display_surface)
+		# self.all_sprites.draw(self.display_surface)
+		self.all_sprites.custom_draw()
 		self.all_sprites.update(dt)
 		self.bullets.draw(self.display_surface)
 		self.bullets.update(dt)
@@ -46,7 +53,14 @@ class Level:
 			self.draw_bullet()
 
 
+class CameraGroup(pygame.sprite.Group):
+	def __init__(self):
+		super().__init__()
+		self.display_surface = pygame.display.get_surface()
 
+	def custom_draw(self):
+		for sprite in self.sprites():
+			self.display_surface.blit(sprite.image, sprite.rect)
 
 		
 

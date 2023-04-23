@@ -70,8 +70,9 @@ class Player(pygame.sprite.Sprite):
             self.shot = False
 
     def get_status(self):
-        if self.direction.magnitude() == 0:
 
+        #idle
+        if self.direction.magnitude() == 0:
             self.status =  self.status.split("_")[0] + "_idle"
 
 
