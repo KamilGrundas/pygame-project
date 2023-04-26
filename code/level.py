@@ -34,7 +34,7 @@ class Level:
 
 
 		if time.time() - self.last_shot > self.player.shot_delay: #shot delay check
-			self.new_bullet = Bullet(self.player.rect.centerx,self.player.rect.centery,self.player.angle,self.player.shot_range,self.player.projectile_speed,self.bullets)
+			self.new_bullet = Bullet(SCREEN_WIDTH/2,SCREEN_HEIGHT/2,self.player.angle,self.player.shot_range,self.player.projectile_speed,self.bullets)
 			self.bullets.add(self.new_bullet)
 			self.last_shot = time.time()
 	

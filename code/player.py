@@ -100,8 +100,8 @@ class Player(pygame.sprite.Sprite):
     def get_angle(self):
 
         self.mouse_pos = pygame.mouse.get_pos()
-        self.x_change = (self.mouse_pos[0] - self.pos.x)
-        self.y_change = (self.mouse_pos[1] - self.pos.y)
+        self.x_change = ((self.mouse_pos[0] + self.pos.x - (SCREEN_WIDTH/2)) - self.pos.x)
+        self.y_change = (self.mouse_pos[1] + self.pos.y - (SCREEN_HEIGHT/2) - self.pos.y)
         self.angle = math.degrees(math.atan2(self.y_change, self.x_change))
 
 
