@@ -2,6 +2,7 @@ import pygame
 import time
 from settings import *
 from player import Player
+from enemy import Enemy
 from bullet import Bullet
 from sprites import Generic
 
@@ -16,11 +17,14 @@ class Level:
 
 		#bullets group
 		self.bullets = pygame.sprite.Group()
+		self.enemies = pygame.sprite.Group() #do usuniecia?
 		self.last_shot = time.time()
 
 		self.setup()
 
 	def setup(self):
+		self.enemy = Enemy((840,660), self.all_sprites)
+		self.enemies.add(self.enemy) #do usuniecia?
 		self.player = Player((640,360), self.all_sprites)
 		Generic(
 			pos = (0,0),
@@ -34,7 +38,7 @@ class Level:
 
 
 		if time.time() - self.last_shot > self.player.shot_delay: #shot delay check
-			self.new_bullet = Bullet(self.player.pos.x,self.player.pos.y,self.player.angle,self.player.shot_range,self.player.projectile_speed,self.all_sprites)
+			self.new_bullet = Bullet(self.player.pos.x,self.player.pos.y,self.player.angle,self.player.shot_range,self.player.projectile_speed,self.all_sprites,self.enemies)
 			self.bullets.add(self.new_bullet)
 			self.last_shot = time.time()
 	

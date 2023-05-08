@@ -4,9 +4,12 @@ from settings import *
 
 class Bullet(pygame.sprite.Sprite):
 
-    def __init__(self,x,y,angle,range, speed, group):
+    def __init__(self,x,y,angle,range, speed, group, enemies): #enemies do usuniecia ?
         super().__init__(group)
         
+        #dousuniecia
+        self.enemies = enemies
+
         #general setup
         self.image = pygame.Surface((15,15))
         self.image.fill("red")
@@ -45,6 +48,11 @@ class Bullet(pygame.sprite.Sprite):
         else:
             if self.x < self.endposx or self.y < self.endposy:
                 self.bullet_destroy = True
+
+        for enemy in self.enemies:
+            if self.rect.colliderect(enemy):
+                self.bullet_destroy = True
+            
 
     def move(self,dt):
     
