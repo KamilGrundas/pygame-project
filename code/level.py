@@ -34,22 +34,21 @@ class Level:
 
 
 		if time.time() - self.last_shot > self.player.shot_delay: #shot delay check
-			self.new_bullet = Bullet(SCREEN_WIDTH/2,SCREEN_HEIGHT/2,self.player.angle,self.player.shot_range,self.player.projectile_speed,self.bullets)
+			self.new_bullet = Bullet(self.player.pos.x,self.player.pos.y,self.player.angle,self.player.shot_range,self.player.projectile_speed,self.all_sprites)
 			self.bullets.add(self.new_bullet)
 			self.last_shot = time.time()
 	
 	def update_bullet(self):
 		for bullet in self.bullets:
 			if bullet.bullet_destroy == True:
-				self.bullets.remove(bullet)
+				self.all_sprites.remove(bullet)
 
 	def run(self,dt):
 		self.display_surface.fill('black')
-		# self.all_sprites.draw(self.display_surface)
+
 		self.all_sprites.custom_draw(self.player)
 		self.all_sprites.update(dt)
-		self.bullets.draw(self.display_surface)
-		self.bullets.update(dt)
+
 		self.update_bullet()
 		if self.player.shot == True:
 			self.draw_bullet()

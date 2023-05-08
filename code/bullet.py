@@ -18,6 +18,7 @@ class Bullet(pygame.sprite.Sprite):
         self.x = x
         self.y = y
         self.bullet_speed = speed
+        self.z = LAYERS["main"]
 
         #velocity in x/y
         self.x_vel = math.cos(angle * (2*math.pi/360))
