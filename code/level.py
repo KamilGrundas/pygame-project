@@ -15,9 +15,10 @@ class Level:
 		# sprite groups
 		self.all_sprites = CameraGroup()
 
-		#bullets group
+		#bullets subgroup
 		self.bullets = pygame.sprite.Group()
-		self.enemies = pygame.sprite.Group() #do usuniecia?
+		#enemies subgroup
+		self.enemies = pygame.sprite.Group()
 		self.last_shot = time.time()
 
 		self.setup()
@@ -42,16 +43,28 @@ class Level:
 			self.bullets.add(self.new_bullet)
 			self.last_shot = time.time()
 	
+	#bullet update
 	def update_bullet(self):
 		for bullet in self.bullets:
 			if bullet.bullet_destroy == True:
 				self.all_sprites.remove(bullet)
+				self.bullets.remove(bullet)
+
+	#enemies update
+	def update_enemies(self):
+		for enemy in self.enemies:
+			if enemy.enemy_destroy == True:
+				self.all_sprites.remove(enemy)
+				self.enemies.remove(enemy)
+				
 
 	def run(self,dt):
 		self.display_surface.fill('black')
 
 		self.all_sprites.custom_draw(self.player)
 		self.all_sprites.update(dt)
+
+		self.update_enemies()
 
 		self.update_bullet()
 		if self.player.shot == True:

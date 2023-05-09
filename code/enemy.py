@@ -13,6 +13,8 @@ class Enemy(pygame.sprite.Sprite):
         self.image = pygame.Surface((30,70))
         self.image.fill("red")
         self.rect = self.image.get_rect(center = pos)
+        self.enemy_destroy = False
+        self.health = 100
         
         # self.rect = self.image.get_rect(center = pos)
         self.z = LAYERS["fruit"]
@@ -29,6 +31,10 @@ class Enemy(pygame.sprite.Sprite):
         self.projectile_speed = 600
 
 
+    def health_update(self):
+        
+        if self.health <= 0:
+            self.enemy_destroy = True
 
 
     def move(self,dt):
@@ -53,3 +59,4 @@ class Enemy(pygame.sprite.Sprite):
 
     def update(self,dt):
         self.move(dt)
+        self.health_update()

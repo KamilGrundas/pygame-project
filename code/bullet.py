@@ -51,6 +51,8 @@ class Bullet(pygame.sprite.Sprite):
 
         for enemy in self.enemies:
             if self.rect.colliderect(enemy):
+                enemy.health -= 10
+                print(enemy.health)
                 self.bullet_destroy = True
             
 
