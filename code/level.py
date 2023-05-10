@@ -26,8 +26,10 @@ class Level:
 	def setup(self):
 
 		self.player = Player((640,360), self.all_sprites)
-		self.enemy = Enemy((840,660), self.all_sprites, self.player)
-		self.enemies.add(self.enemy) #do usuniecia?
+		self.enemy1 = Enemy((840,660), self.all_sprites, self.player)
+		self.enemies.add(self.enemy1) #do usuniecia?
+		self.enemy2 = Enemy((900,660), self.all_sprites, self.player)
+		self.enemies.add(self.enemy2) #do usuniecia?
 		Generic(
 			pos = (0,0),
 			surf = pygame.image.load("graphics/world/ground.png").convert_alpha(),
@@ -40,7 +42,7 @@ class Level:
 
 
 		if time.time() - self.last_shot > self.player.shot_delay: #shot delay check
-			self.new_bullet = Bullet(self.player.pos.x,self.player.pos.y,self.player.angle,self.player.shot_range,self.player.projectile_speed,self.all_sprites,self.enemies)
+			self.new_bullet = Bullet(self.player.pos.x,self.player.pos.y,self.player.angle,self.player.shot_range,self.player.projectile_speed,self.all_sprites,self.enemies, True)
 			self.bullets.add(self.new_bullet)
 			self.last_shot = time.time()
 	

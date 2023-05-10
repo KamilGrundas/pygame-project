@@ -26,7 +26,7 @@ class Enemy(pygame.sprite.Sprite):
         self.direction = pygame.math.Vector2()
         self.pos = pygame.math.Vector2(self.rect.center)
         self.agro = False
-        self.speed = 150
+        self.speed = 120
         # self.direction.x = 1
 
         #shooting attributes

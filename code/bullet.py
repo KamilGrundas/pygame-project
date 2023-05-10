@@ -4,7 +4,7 @@ from settings import *
 
 class Bullet(pygame.sprite.Sprite):
 
-    def __init__(self,x,y,angle,range, speed, group, enemies): #enemies do usuniecia ?
+    def __init__(self,x,y,angle,range, speed, group, enemies, piercing): #enemies do usuniecia ?
         super().__init__(group)
         
         #dousuniecia
@@ -17,6 +17,8 @@ class Bullet(pygame.sprite.Sprite):
         self.rect.center = (x,y)
         self.bullet_destroy = False
         self.range = range
+        self.piercing = piercing
+        self.hit_enemies = pygame.sprite.Group()
         self.angle = angle
         self.x = x
         self.y = y
@@ -32,7 +34,9 @@ class Bullet(pygame.sprite.Sprite):
         self.endposy = y + self.y_vel * range
 
 
-    def range_destroy(self):
+    def destroy(self):
+
+        #range destroy
 
         if self.angle >= 0 and self.angle <= 90:
             if self.x > self.endposx or self.y > self.endposy:
@@ -49,11 +53,18 @@ class Bullet(pygame.sprite.Sprite):
             if self.x < self.endposx or self.y < self.endposy:
                 self.bullet_destroy = True
 
+        #collision destroy
+
+        
+
         for enemy in self.enemies:
-            if self.rect.colliderect(enemy):
+                
+            if self.rect.colliderect(enemy) and self.bullet_destroy == False and enemy not in self.hit_enemies: #second condition prevents hitting multiple targets, third condition prevents double hit
                 enemy.health -= 10
+                self.hit_enemies.add(enemy)
                 print(enemy.health)
-                self.bullet_destroy = True
+                if self.piercing == False:
+                    self.bullet_destroy = True
             
 
     def move(self,dt):
@@ -66,7 +77,7 @@ class Bullet(pygame.sprite.Sprite):
 
     def update(self,dt):
         self.move(dt)
-        self.range_destroy()
+        self.destroy()
 
 
 
