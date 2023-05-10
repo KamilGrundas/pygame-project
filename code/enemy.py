@@ -26,8 +26,8 @@ class Enemy(pygame.sprite.Sprite):
         self.direction = pygame.math.Vector2()
         self.pos = pygame.math.Vector2(self.rect.center)
         self.agro = False
-        self.speed = 200
-        self.direction.x = 1
+        self.speed = 150
+        # self.direction.x = 1
 
         #shooting attributes
         self.shot = False
@@ -41,18 +41,31 @@ class Enemy(pygame.sprite.Sprite):
         if self.health <= 0:
             self.enemy_destroy = True
 
-    def ai(self):
+    def ai(self, dt):
+
+        self.x_change = (self.pos.x - (self.player.pos.x))
+        self.y_change = (self.pos.y - (self.player.pos.y))
+        self.angle_to = math.degrees(math.atan2(self.y_change, self.x_change))
+
+        #velocity in x/y
+        self.x_vel = math.cos(self.angle_to * (2*math.pi/360))
+        self.y_vel = math.sin(self.angle_to * (2*math.pi/360))
 
         if (self.player.pos.x - self.pos.x)**2 + (self.player.pos.y - self.pos.y)**2 < 50000:
             self.agro = True
+        else:
+            self.agro = False
+
+        if self.agro == True:
+            self.pos.x -= self.x_vel * self.speed * dt
+            self.pos.y -= self.y_vel * self.speed * dt
 
 
-
-        if self.agro == False:
-            if self.pos.x >= 1000:
-                self.direction.x = -1
-            if self.pos.x <= 700:
-                self.direction.x = 1
+        # if self.agro == False:
+        #     if self.pos.x >= 1000:
+        #         self.direction.x = -1
+        #     if self.pos.x <= 700:
+        #         self.direction.x = 1
 
 
     def move(self,dt):
@@ -76,6 +89,6 @@ class Enemy(pygame.sprite.Sprite):
 
 
     def update(self,dt):
-        self.ai()
+        self.ai(dt)
         self.move(dt)
         self.health_update()
