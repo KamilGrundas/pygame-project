@@ -4,7 +4,7 @@ import math
 from support import *
 
 class Enemy(pygame.sprite.Sprite):
-    def __init__(self, pos, group):
+    def __init__(self, pos, group, player):
         super().__init__(group)
 
 
@@ -15,6 +15,9 @@ class Enemy(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(center = pos)
         self.enemy_destroy = False
         self.health = 100
+
+        #player import
+        self.player = player
         
         # self.rect = self.image.get_rect(center = pos)
         self.z = LAYERS["fruit"]
@@ -22,7 +25,9 @@ class Enemy(pygame.sprite.Sprite):
         #movement attributes
         self.direction = pygame.math.Vector2()
         self.pos = pygame.math.Vector2(self.rect.center)
+        self.agro = False
         self.speed = 200
+        self.direction.x = 1
 
         #shooting attributes
         self.shot = False
@@ -35,6 +40,19 @@ class Enemy(pygame.sprite.Sprite):
         
         if self.health <= 0:
             self.enemy_destroy = True
+
+    def ai(self):
+
+        if (self.player.pos.x - self.pos.x)**2 + (self.player.pos.y - self.pos.y)**2 < 50000:
+            self.agro = True
+
+
+
+        if self.agro == False:
+            if self.pos.x >= 1000:
+                self.direction.x = -1
+            if self.pos.x <= 700:
+                self.direction.x = 1
 
 
     def move(self,dt):
@@ -58,5 +76,6 @@ class Enemy(pygame.sprite.Sprite):
 
 
     def update(self,dt):
+        self.ai()
         self.move(dt)
         self.health_update()

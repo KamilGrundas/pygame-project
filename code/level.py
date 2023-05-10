@@ -24,9 +24,10 @@ class Level:
 		self.setup()
 
 	def setup(self):
-		self.enemy = Enemy((840,660), self.all_sprites)
-		self.enemies.add(self.enemy) #do usuniecia?
+
 		self.player = Player((640,360), self.all_sprites)
+		self.enemy = Enemy((840,660), self.all_sprites, self.player)
+		self.enemies.add(self.enemy) #do usuniecia?
 		Generic(
 			pos = (0,0),
 			surf = pygame.image.load("graphics/world/ground.png").convert_alpha(),
