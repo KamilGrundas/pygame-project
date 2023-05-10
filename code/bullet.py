@@ -25,6 +25,10 @@ class Bullet(pygame.sprite.Sprite):
         self.bullet_speed = speed
         self.z = LAYERS["main"]
 
+        #sound
+        bulletSound = pygame.mixer.Sound("audio/bladeSwing.mp3")
+        bulletSound.play()
+
         #velocity in x/y
         self.x_vel = math.cos(angle * (2*math.pi/360))
         self.y_vel = math.sin(angle * (2*math.pi/360))
