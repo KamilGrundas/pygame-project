@@ -42,20 +42,10 @@ class Bullet(pygame.sprite.Sprite):
 
         #range destroy
 
-        if self.angle >= 0 and self.angle <= 90:
-            if self.x > self.endposx or self.y > self.endposy:
-                self.bullet_destroy = True
-        
-        elif self.angle > 90 and self.angle <= 180:
-            if self.x < self.endposx or self.y > self.endposy:
-                self.bullet_destroy = True
+        if (self.x - self.endposx)**2 + (self.y - self.endposy)**2 < self.range:
 
-        elif self.angle < 0 and self.angle >= -90:
-            if self.x > self.endposx or self.y < self.endposy:
-                self.bullet_destroy = True
-        else:
-            if self.x < self.endposx or self.y < self.endposy:
-                self.bullet_destroy = True
+            self.bullet_destroy = True
+
 
         #collision destroy
 
