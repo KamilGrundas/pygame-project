@@ -4,7 +4,7 @@ from settings import *
 
 class Bullet(pygame.sprite.Sprite):
 
-    def __init__(self,x,y,angle,range, speed, group, enemies, piercing): #enemies do usuniecia ?
+    def __init__(self, group, player, enemies): #enemies do usuniecia ?
         super().__init__(group)
         
         #dousuniecia
@@ -14,15 +14,15 @@ class Bullet(pygame.sprite.Sprite):
         self.image = pygame.Surface((15,15))
         self.image.fill("red")
         self.rect = self.image.get_rect()
-        self.rect.center = (x,y)
+        self.rect.center = (player.pos.x,player.pos.y)
         self.bullet_destroy = False
-        self.range = range
-        self.piercing = piercing
+        self.range = player.shot_range
+        self.piercing = player.piercing
         self.hit_enemies = pygame.sprite.Group()
-        self.angle = angle
-        self.x = x
-        self.y = y
-        self.bullet_speed = speed
+        self.angle = player.angle
+        self.x = player.pos.x
+        self.y = player.pos.y
+        self.bullet_speed = player.projectile_speed
         self.z = LAYERS["main"]
 
         #sound
@@ -30,12 +30,12 @@ class Bullet(pygame.sprite.Sprite):
         bulletSound.play()
 
         #velocity in x/y
-        self.x_vel = math.cos(angle * (2*math.pi/360))
-        self.y_vel = math.sin(angle * (2*math.pi/360))
+        self.x_vel = math.cos(self.angle * (2*math.pi/360))
+        self.y_vel = math.sin(self.angle * (2*math.pi/360))
 
         #range
-        self.endposx = x + self.x_vel * range
-        self.endposy = y + self.y_vel * range
+        self.endposx = player.pos.x + self.x_vel * player.shot_range
+        self.endposy = player.pos.y + self.y_vel * player.shot_range
 
 
     def destroy(self):

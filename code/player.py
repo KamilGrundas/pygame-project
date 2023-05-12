@@ -24,6 +24,7 @@ class Player(pygame.sprite.Sprite):
 
         #shooting attributes
         self.shot = False
+        self.piercing = True
         self.shot_delay = 0.1
         self.shot_range = 300
         self.projectile_speed = 600
