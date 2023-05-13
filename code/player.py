@@ -2,6 +2,7 @@ import pygame
 from settings import *
 import math
 from support import *
+import time
 
 
 class Player(pygame.sprite.Sprite):
@@ -17,6 +18,8 @@ class Player(pygame.sprite.Sprite):
         self.base_player_image = self.image
         self.rect = self.image.get_rect(center = pos)
         self.z = LAYERS["main"]
+        
+        self.last_shot = time.time()
 
         
 

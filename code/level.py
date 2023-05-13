@@ -22,7 +22,7 @@ class Level:
 
 		self.players = pygame.sprite.Group()
 
-		self.last_shot = time.time()
+
 
 		self.setup()
 
@@ -45,18 +45,19 @@ class Level:
 	def draw_bullet(self):
 
 
-		if time.time() - self.last_shot > self.player.shot_delay: #shot delay check
+		if time.time() - self.player.last_shot > self.player.shot_delay: #shot delay check
 			self.new_bullet = Bullet(self.all_sprites,self.player,self.enemies)
 			self.bullets.add(self.new_bullet)
-			self.last_shot = time.time()
+			self.player.last_shot = time.time()
 
 	def draw_enemy_bullet(self):
 
 		for enemy in self.enemies:
-			if time.time() - self.last_shot > enemy.shot_delay: #shot delay check
-				self.new_bullet = Bullet(self.all_sprites,enemy,self.players)
-				self.bullets.add(self.new_bullet)
-				self.last_shot = time.time()
+			if enemy.shot == True:
+				if time.time() - enemy.last_shot > enemy.shot_delay: #shot delay check
+					self.new_bullet = Bullet(self.all_sprites,enemy,self.players)
+					self.bullets.add(self.new_bullet)
+					enemy.last_shot = time.time()
 	
 	#bullet update
 	def update_bullet(self):

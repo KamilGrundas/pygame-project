@@ -2,6 +2,7 @@ import pygame
 from settings import *
 import math
 from support import *
+import time
 
 class Enemy(pygame.sprite.Sprite):
     def __init__(self, pos, group, player):
@@ -16,7 +17,8 @@ class Enemy(pygame.sprite.Sprite):
         self.enemy_destroy = False
         self.health = 1000
 
-        self.angle = 100
+        self.last_shot = time.time()
+
 
         #player import
         self.player = player
@@ -33,9 +35,9 @@ class Enemy(pygame.sprite.Sprite):
 
         #shooting attributes
         self.shot = False
-        self.shot_delay = 0.1
+        self.shot_delay = 0.5
         self.shot_range = 200
-        self.projectile_speed = 600
+        self.projectile_speed = 200
         angle = 0
         bullets = 1
         self.pattern = [angle, bullets]
@@ -59,13 +61,13 @@ class Enemy(pygame.sprite.Sprite):
 
     def ai(self, dt):
 
-        self.x_change = (self.pos.x - (self.player.pos.x))
-        self.y_change = (self.pos.y - (self.player.pos.y))
-        self.angle_to = math.degrees(math.atan2(self.y_change, self.x_change))
+        self.x_change = (self.player.pos.x - self.pos.x)
+        self.y_change = (self.player.pos.y - self.pos.y)
+        self.angle = math.degrees(math.atan2(self.y_change, self.x_change))
 
         #velocity in x/y
-        self.x_vel = math.cos(self.angle_to * (2*math.pi/360))
-        self.y_vel = math.sin(self.angle_to * (2*math.pi/360))
+        self.x_vel = math.cos(self.angle * (2*math.pi/360))
+        self.y_vel = math.sin(self.angle * (2*math.pi/360))
 
         if (self.player.pos.x - self.pos.x)**2 + (self.player.pos.y - self.pos.y)**2 < 50000:
             self.agro = True
@@ -73,8 +75,8 @@ class Enemy(pygame.sprite.Sprite):
             self.agro = False
 
         if self.agro == True:
-            self.pos.x -= self.x_vel * self.speed * dt
-            self.pos.y -= self.y_vel * self.speed * dt
+            self.pos.x += self.x_vel * self.speed * dt
+            self.pos.y += self.y_vel * self.speed * dt
 
 
         # if self.agro == False:
@@ -86,6 +88,9 @@ class Enemy(pygame.sprite.Sprite):
     def shooting(self):
         if self.agro == True:
             self.shot = True
+
+        if self.agro == False:
+            self.shot = False
     
 
 
