@@ -3,6 +3,7 @@ from settings import *
 import math
 from support import *
 
+
 class Player(pygame.sprite.Sprite):
     def __init__(self, pos, group):
         super().__init__(group)
@@ -17,17 +18,33 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(center = pos)
         self.z = LAYERS["main"]
 
+        
+
         #movement attributes
         self.direction = pygame.math.Vector2()
         self.pos = pygame.math.Vector2(self.rect.center)
         self.speed = 200
 
+
+
+        #weapon_stats
+        self.weapon_damage = [15,75]
+        self.projectile_speed = 600
+
+        #stats
+        self.health = 1000
+        self.attack_stat = 1.1
+        self.dextarity_stat = 1
+        self.vitality_stat = 1
+        self.wisdom_stat = 1
+        self.defense_stat  = 1
+        self.speed_stat = 1
+
         #shooting attributes
         self.shot = False
         self.piercing = True
-        self.shot_delay = 0.1
+        self.shot_delay = 0.2 * self.dextarity_stat
         self.shot_range = 300
-        self.projectile_speed = 600
 
     def import_assets(self):
         self.animations = {"up":[],"down":[],"left":[],"right":[],

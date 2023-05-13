@@ -14,7 +14,9 @@ class Enemy(pygame.sprite.Sprite):
         self.image.fill("red")
         self.rect = self.image.get_rect(center = pos)
         self.enemy_destroy = False
-        self.health = 100
+        self.health = 1000
+
+        self.angle = 100
 
         #player import
         self.player = player
@@ -34,11 +36,25 @@ class Enemy(pygame.sprite.Sprite):
         self.shot_delay = 0.1
         self.shot_range = 200
         self.projectile_speed = 600
+        angle = 0
+        bullets = 1
+        self.pattern = [angle, bullets]
+        self.piercing = False
+        self.weapon_damage = [15,75]
+
+            #stats
+        self.attack_stat = 1.1
+        self.dextarity_stat = 1
+        self.vitality_stat = 1
+        self.wisdom_stat = 1
+        self.defense_stat  = 1
+        self.speed_stat = 1
 
 
     def health_update(self):
         
         if self.health <= 0:
+            self.shot = False
             self.enemy_destroy = True
 
     def ai(self, dt):
@@ -67,6 +83,11 @@ class Enemy(pygame.sprite.Sprite):
         #     if self.pos.x <= 700:
         #         self.direction.x = 1
 
+    def shooting(self):
+        if self.agro == True:
+            self.shot = True
+    
+
 
     def move(self,dt):
 
@@ -92,3 +113,4 @@ class Enemy(pygame.sprite.Sprite):
         self.ai(dt)
         self.move(dt)
         self.health_update()
+        self.shooting()

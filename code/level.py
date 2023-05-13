@@ -19,6 +19,9 @@ class Level:
 		self.bullets = pygame.sprite.Group()
 		#enemies subgroup
 		self.enemies = pygame.sprite.Group()
+
+		self.players = pygame.sprite.Group()
+
 		self.last_shot = time.time()
 
 		self.setup()
@@ -26,6 +29,7 @@ class Level:
 	def setup(self):
 
 		self.player = Player((640,360), self.all_sprites)
+		self.players.add(self.player)
 		self.enemy1 = Enemy((840,660), self.all_sprites, self.player)
 		self.enemies.add(self.enemy1) #do usuniecia?
 		self.enemy2 = Enemy((900,660), self.all_sprites, self.player)
@@ -45,6 +49,14 @@ class Level:
 			self.new_bullet = Bullet(self.all_sprites,self.player,self.enemies)
 			self.bullets.add(self.new_bullet)
 			self.last_shot = time.time()
+
+	def draw_enemy_bullet(self):
+
+		for enemy in self.enemies:
+			if time.time() - self.last_shot > enemy.shot_delay: #shot delay check
+				self.new_bullet = Bullet(self.all_sprites,enemy,self.players)
+				self.bullets.add(self.new_bullet)
+				self.last_shot = time.time()
 	
 	#bullet update
 	def update_bullet(self):
@@ -72,6 +84,12 @@ class Level:
 		self.update_bullet()
 		if self.player.shot == True:
 			self.draw_bullet()
+		
+		for enemy in self.enemies:
+
+			if enemy in self.enemies:
+				if enemy.shot == True:
+					self.draw_enemy_bullet()
 
 
 class CameraGroup(pygame.sprite.Group):

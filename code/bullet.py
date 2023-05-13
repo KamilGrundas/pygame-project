@@ -1,6 +1,7 @@
 import pygame
 import math
 from settings import *
+import random
 
 class Bullet(pygame.sprite.Sprite):
 
@@ -24,6 +25,9 @@ class Bullet(pygame.sprite.Sprite):
         self.y = player.pos.y
         self.bullet_speed = player.projectile_speed
         self.z = LAYERS["main"]
+
+        #damge
+        self.damage = int(random.randrange(player.weapon_damage[0],player.weapon_damage[1],1) * (player.attack_stat))
 
         #sound
         bulletSound = pygame.mixer.Sound("audio/bladeSwing.mp3")
@@ -54,7 +58,7 @@ class Bullet(pygame.sprite.Sprite):
         for enemy in self.enemies:
                 
             if self.rect.colliderect(enemy) and self.bullet_destroy == False and enemy not in self.hit_enemies: #second condition prevents hitting multiple targets, third condition prevents double hit
-                enemy.health -= 10
+                enemy.health -= self.damage
                 self.hit_enemies.add(enemy)
                 print(enemy.health)
                 if self.piercing == False:
