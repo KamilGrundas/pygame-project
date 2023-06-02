@@ -1,7 +1,7 @@
 from pygame.math import Vector2
 # screen
 SCREEN_WIDTH = 1280
-SCREEN_HEIGHT = 720
+SCREEN_HEIGHT = 900
 TILE_SIZE = 64
 
 PLAYER_SIZE = 1.5

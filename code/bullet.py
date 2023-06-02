@@ -57,7 +57,8 @@ class Bullet(pygame.sprite.Sprite):
 
         for enemy in self.enemies:
                 
-            if self.rect.colliderect(enemy) and self.bullet_destroy == False and enemy not in self.hit_enemies: #second condition prevents hitting multiple targets, third condition prevents double hit
+            # if self.rect.colliderect(enemy) and self.bullet_destroy == False and enemy not in self.hit_enemies: #second condition prevents hitting multiple targets, third condition prevents double hit
+            if self.rect.colliderect(enemy.hitbox) and self.bullet_destroy == False and enemy not in self.hit_enemies:
                 enemy.health -= self.damage
                 self.hit_enemies.add(enemy)
                 print(enemy.health)

@@ -100,7 +100,7 @@ class CameraGroup(pygame.sprite.Group):
 		self.offset = pygame.math.Vector2()
 
 	def custom_draw(self, player):
-		self.offset.x = player.rect.centerx - SCREEN_WIDTH / 2
+		self.offset.x = player.rect.centerx - (SCREEN_WIDTH - 380) / 2
 		self.offset.y = player.rect.centery - SCREEN_HEIGHT / 2
 
 		for layer in LAYERS.values():

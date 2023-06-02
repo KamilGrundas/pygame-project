@@ -10,15 +10,12 @@ class Enemy(pygame.sprite.Sprite):
 
 
         #general setup
-        # self.image = pygame.image.load("graphics/character/down/0.png").convert_alpha()
-        self.image = pygame.Surface((30,70))
-        self.image.fill("red")
+        self.image = pygame.image.load("graphics/character/down/0.png").convert_alpha()
         self.rect = self.image.get_rect(center = pos)
         self.enemy_destroy = False
         self.health = 1000
-
+        
         self.last_shot = time.time()
-
 
         #player import
         self.player = player
@@ -32,6 +29,12 @@ class Enemy(pygame.sprite.Sprite):
         self.agro = False
         self.speed = 120
         # self.direction.x = 1
+
+        #hitbox
+        self.hitbox_draw = pygame.Surface((15,15))
+        self.hitbox_draw.fill("red")
+        self.hitbox = self.hitbox_draw.get_rect()
+        self.hitbox.center = (self.pos.x,self.pos.y)
 
         #shooting attributes
         self.shot = False
@@ -109,6 +112,10 @@ class Enemy(pygame.sprite.Sprite):
 
         self.pos.y += self.direction.y * self.speed * dt
         self.rect.centery = self.pos.y
+
+
+        self.hitbox.x = self.pos.x
+        self.hitbox.y = self.pos.y
 
 
 
